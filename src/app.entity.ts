@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class Aaa {
+export class App {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,8 +12,8 @@ export class Aaa {
   count: number = 0;
 
   static of(name) {
-    const aaa = new Aaa();
-    aaa.name = name;
-    return aaa;
+    const app = new App();
+    app.name = name;
+    return app;
   }
 }

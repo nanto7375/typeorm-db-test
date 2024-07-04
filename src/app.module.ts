@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Aaa } from './aaa.entity';
+import { App } from './app.entity';
 import { Transaction } from './transaction';
 
 @Module({
@@ -24,7 +24,7 @@ import { Transaction } from './transaction';
         logger: 'advanced-console',
       }),
     }),
-    TypeOrmModule.forFeature([Aaa]),
+    TypeOrmModule.forFeature([App]),
   ],
   controllers: [AppController],
   providers: [AppService, Transaction],
