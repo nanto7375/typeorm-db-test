@@ -10,4 +10,29 @@ export class AppController {
   setData() {
     return this.appService.setData();
   }
+
+  @Get('set/transaction')
+  setDataUsingTransaction() {
+    return this.appService.setDataUsingTransaction();
+  }
+
+  @Get('set/twice')
+  setDataTwice() {
+    return this.appService.setDataTwice();
+  }
+
+  @Get('set/transaction/twice')
+  setDataUsingTransactionTwice() {
+    return this.appService.setDataUsingTransactionTwice();
+  }
+
+  @Get('change/twice')
+  changeDataTwice() {
+    return this.appService.changeDataTwice();
+  }
+
+  @Get('change/transaction/twice')
+  changeDataUsingTransactionTwice() {
+    return this.appService.changeDataUsingTransactionTwice();
+  }
 }

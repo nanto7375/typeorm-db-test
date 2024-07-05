@@ -5,7 +5,8 @@ import { Injectable } from '@nestjs/common';
 export class Transaction {
   constructor(private readonly dataSource: DataSource) {}
 
-  async start() {
+  async start(name?) {
+    // "READ UNCOMMITTED" | "READ COMMITTED" | "REPEATABLE READ" | "SERIALIZABLE"
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -22,10 +23,11 @@ export class Transaction {
       commit: async (cb) => {
         try {
           const result = await cb();
+          console.log('finish cb: ', name);
           await queryRunner.commitTransaction();
           return result;
         } catch (e) {
-          console.error(e);
+          console.error('transaction error: ', e);
           await queryRunner.rollbackTransaction();
           throw e;
         } finally {
