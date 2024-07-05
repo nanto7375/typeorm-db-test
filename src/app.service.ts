@@ -3,11 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { App } from './app.entity';
 import { Repository } from 'typeorm';
 import { Transaction } from './transaction';
+import { ChildApp } from './child-app.entity';
 
 @Injectable()
 export class AppService {
   constructor(
     @InjectRepository(App) private readonly appRepository: Repository<App>,
+    @InjectRepository(ChildApp)
+    private readonly childAppRepository: Repository<ChildApp>,
     private readonly transaction: Transaction,
   ) {}
 
@@ -84,6 +87,30 @@ export class AppService {
     console.log('after count: ', afterApp.count);
     console.log('gap: ', afterApp.count - beforeApp.count);
 
+    return true;
+  }
+
+  async insertChildUpdateParent() {
+    const parantApp = await this.appRepository.findOne({ where: { id: 1 } });
+    const logic = async () => {
+      const childApp = ChildApp.of(parantApp);
+      await this.childAppRepository.save(childApp);
+      await this.appRepository.increment({ id: 1 }, 'count', 1);
+    };
+    await Promise.all([logic(), logic()]);
+  }
+
+  async insertChildUpdateParentUsingTransaction() {
+    const parantApp = await this.appRepository.findOne({ where: { id: 1 } });
+    const logic = async (name?) => {
+      const { em, commit } = await this.transaction.start(name);
+      return commit(async () => {
+        const childApp = ChildApp.of(parantApp);
+        await em.save(childApp);
+        await em.increment(App, { id: 1 }, 'count', 1);
+      });
+    };
+    await Promise.all([logic('first'), logic('second')]);
     return true;
   }
 }

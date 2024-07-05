@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { App } from './app.entity';
 import { Transaction } from './transaction';
+import { ChildApp } from './child-app.entity';
 
 @Module({
   imports: [
@@ -24,7 +25,7 @@ import { Transaction } from './transaction';
         logger: 'advanced-console',
       }),
     }),
-    TypeOrmModule.forFeature([App]),
+    TypeOrmModule.forFeature([App, ChildApp]),
   ],
   controllers: [AppController],
   providers: [AppService, Transaction],

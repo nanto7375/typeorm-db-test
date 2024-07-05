@@ -35,4 +35,14 @@ export class AppController {
   changeDataUsingTransactionTwice() {
     return this.appService.changeDataUsingTransactionTwice();
   }
+
+  @Get('insert-update')
+  insertChildUpdateParent() {
+    return this.appService.insertChildUpdateParent();
+  }
+
+  @Get('insert-update/transaction')
+  insertChildUpdateParentUsingTransaction() {
+    return this.appService.insertChildUpdateParentUsingTransaction();
+  }
 }
